@@ -129,19 +129,18 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteAsync(int id1, int id2)
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteAsync(int id)
     {
         try
         {
-            var entity = await _categoryRepository.GetOneAsync(id1);
+            var result = await _productRepository.GetProductAsync(id);
             if (entity == null)
             {
                 return NotFound();
             }
             else{
-                var result = await _productRepository.GetProductAsync(id2);
-                await _productRepository.DeleteProductAsync(result);
+                await _productRepository.DeleteProductAsync(entity);
             }
             return Ok();
         }
